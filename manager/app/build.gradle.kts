@@ -33,6 +33,9 @@ val baseCFlags = listOf(
 )
 val baseCppFlags = baseCFlags + "-fno-rtti"
 
+val isReleaseTask =
+    project.gradle.startParameter.taskNames.any { it.contains("Release", ignoreCase = true) }
+
 android {
     namespace = "com.resukisu.resukisu"
 
@@ -135,7 +138,7 @@ android {
 
     splits {
         abi {
-            isEnable = true
+            isEnable = isReleaseTask
             reset()
             include("arm64-v8a", "x86_64", "armeabi-v7a")
             isUniversalApk = true

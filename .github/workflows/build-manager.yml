@@ -202,12 +202,6 @@ jobs:
             echo "title=Manager" >> $GITHUB_OUTPUT
             echo "topicid=${{ vars.MESSAGE_THREAD_ID }}" >> $GITHUB_OUTPUT
           fi
-        
-      - name: Download Debug artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: ${{ steps.determine.outputs.title }}-debug
-          path: .
 
       - name: Download Release artifact
         uses: actions/download-artifact@v8
@@ -227,6 +221,5 @@ jobs:
         run: |
           pip3 install python-telegram-bot
           export VERSION=$(git rev-list --count HEAD)
-          APK_DEBUG=apk/debug/*.apk
           APK_RELEASE=apk/release/*.apk
-          python3 $GITHUB_WORKSPACE/scripts/ksubot.py $APK_DEBUG $APK_RELEASE
+          python3 $GITHUB_WORKSPACE/scripts/ksubot.py $APK_RELEASE

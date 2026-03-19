@@ -29,7 +29,7 @@ try:
                 commit_message = f'(other {i} commits)\n{commit_message}'
                 break
             else:
-                commit_message = f'{msg}\n{commit_message}'
+                commit_message = f'{msg}\n{commit_message}\n'
             i -= 1
         commit_message = f'{commit_message.strip()}'
         last_commit = commits[-1]
@@ -63,6 +63,7 @@ Branch: {branch}
 </pre>
 {commit_line}
 <a href="{run_url}">Workflow run</a>
+<a href="https://nightly.link/ReSukiSU/ReSukiSU/workflows/build-manager/main/Manager-debug.zip">Get latest main Debug build</a>
 """.strip()
 
 def escape_telegram_html(text: str) -> str:
@@ -145,12 +146,10 @@ async def main():
         print("[-] Caption is too long,so it will be sent as a separate message without caption for files")
         no_caption = True
     upload_release_files = []
-    upload_debug_files = []
 
     for index, file in enumerate(files):
         if os.path.basename(file).find("debug") != -1:
-            # If the filename contains "debug", treat it as a debug file and add caption to it
-            upload_debug_files.append(InputMediaDocument(media=open(file, "rb"), filename=os.path.basename(file), caption=f"{caption_debug if not no_caption else '<b>DEBUG Manager</b>'}", parse_mode=ParseMode.HTML))
+            # If the filename contains "debug", skip it.
             continue
         elif index == len(files) - 1:
             # Only add caption to the last file
@@ -165,9 +164,6 @@ async def main():
     print("[+] Sending")
     if no_caption:
         await bot.send_message(chat_id=CHAT_ID, text=caption, parse_mode=ParseMode.HTML, message_thread_id=MESSAGE_THREAD_ID)
-    if len(upload_debug_files) > 0:
-        await send_media_group(bot=bot, chat_id=CHAT_ID, media=upload_debug_files, message_thread_id=MESSAGE_THREAD_ID)
-    print("[+] Debug files uploaded,starting to upload release files")
     if len(upload_release_files) > 0:
         await send_media_group(bot=bot, chat_id=CHAT_ID, media=upload_release_files, message_thread_id=MESSAGE_THREAD_ID)
     print("[+] Done!")

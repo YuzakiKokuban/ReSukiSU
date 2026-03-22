@@ -58,12 +58,6 @@ enum Commands {
         post_magica: bool,
     },
 
-    /// Manage susfs component
-    Susfs {
-        #[command(subcommand)]
-        command: SuSFSSubCommands,
-    },
-
     /// Manage auto apply user custom umount configs
     UmountConfig {
         #[command(subcommand)]
@@ -545,6 +539,11 @@ pub fn run() -> Result<()> {
         return crate::android::resetprop::run_from_args(&all_args);
     }
 
+    if arg0.ends_with("ksu_susfs") {
+        let _all_args: Vec<String> = std::env::args().collect();
+        return crate::android::susfs::cli::susfs_cli();
+    }
+
     let cli = Args::parse();
 
     log::info!("command: {:?}", cli.command);
@@ -555,7 +554,6 @@ pub fn run() -> Result<()> {
             init_event::on_boot_completed();
             Ok(())
         }
-        Commands::Susfs { command } => susfs_cli(command),
         Commands::UmountConfig { command } => match command {
             UmountConfigOp::Add { mnt, flags } => umount_config::add_umount(&mnt, flags),
             UmountConfigOp::Del { mnt } => umount_config::del_umount(&mnt),

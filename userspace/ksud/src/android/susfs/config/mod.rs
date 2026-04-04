@@ -76,6 +76,11 @@ impl Default for Data {
     }
 }
 
+pub enum ConfigType {
+    Add,
+    Remove,
+}
+
 fn save_config(config: &Data) {
     let Ok(string) = serde_json::to_string_pretty(&config) else {
         log::warn!("failed to deserialize susfs string");

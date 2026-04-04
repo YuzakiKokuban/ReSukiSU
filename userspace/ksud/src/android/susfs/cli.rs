@@ -10,6 +10,9 @@ use crate::android::susfs::{
 pub struct SusfsArgs {
     #[command(subcommand)]
     pub command: SuSFSSubCommands,
+    /// Removed in config
+    #[arg(long, default_value = "true")]
+    pub remove: bool,
 }
 
 #[derive(Debug, Subcommand)]
@@ -140,34 +143,39 @@ struct SusfsParser {
 
 pub fn run_from_args(args: &[String]) -> Result<()> {
     let parser = SusfsParser::try_parse_from(args)?;
-    run_main(parser.arg.command)
+    run_main(parser.arg.command, parser.arg.remove)
 }
 
-pub fn run_main(command: SuSFSSubCommands) -> Result<()> {
+pub fn run_main(command: SuSFSSubCommands, remove: bool) -> Result<()> {
     //let command = SuSFSSubCommands::try_parse_from(args)?;
+    let types = if remove {
+        config::ConfigType::Remove
+    } else {
+        config::ConfigType::Add
+    };
     match command {
         SuSFSSubCommands::AddSusPath { path } => {
-            config::operation::add::add_sus_path(&path);
+            config::operation::sus_path(&path, &types);
             api::add_sus_path(&api::SusPathType::Normal, &path)?;
         }
         SuSFSSubCommands::AddSusPathLoop { path } => {
-            config::operation::add::add_sus_path_loop(&path);
+            config::operation::sus_path_loop(&path, &types);
             api::add_sus_path(&api::SusPathType::Loop, &path)?;
         }
         SuSFSSubCommands::AddSusKstat { path } => {
-            config::operation::add::add_sus_kstat(&path);
+            config::operation::sus_kstat(&path, &types);
             api::add_sus_kstat(path)?;
         }
         SuSFSSubCommands::UpdateSusKstat { path } => {
-            config::operation::add::add_sus_kstat_update(&path);
+            config::operation::sus_kstat_update(&path, &types);
             api::update_sus_kstat(path)?;
         }
         SuSFSSubCommands::UpdateSusKstatFullClone { path } => {
-            config::operation::add::add_sus_kstat_full_clone(&path);
+            config::operation::sus_kstat_full_clone(&path, &types);
             api::update_sus_kstat_full_clone(path)?;
         }
         SuSFSSubCommands::SetUname { release, version } => {
-            config::operation::add::set_uname(&release, &version);
+            config::operation::set_uname(&release, &version, &types);
             api::set_uname(&release, &version)?;
         }
         SuSFSSubCommands::EnableLog { enabled } => {
@@ -184,11 +192,11 @@ pub fn run_main(command: SuSFSSubCommands) -> Result<()> {
             api::add_open_redirect(target_path, redirected_path, uid_scheme)?;
         }
         SuSFSSubCommands::AddSusMap { path } => {
-            config::operation::add::add_sus_map(&path);
+            config::operation::sus_map(&path, &types);
             api::add_sus_map(path)?;
         }
         SuSFSSubCommands::EnableAvcLogSpoofing { enabled } => {
-            config::operation::add::enable_avc_spoofing(enabled);
+            config::operation::enable_avc_spoofing(enabled);
             api::enable_avc_log_spoofing(enabled)?;
         }
         SuSFSSubCommands::Show { info_type } => match info_type {
@@ -203,7 +211,7 @@ pub fn run_main(command: SuSFSSubCommands) -> Result<()> {
             }
         },
         SuSFSSubCommands::AddSusKstatStatically(args) => {
-            config::operation::add::add_sus_kstat_statically(
+            config::operation::add_sus_kstat_statically(
                 &args.path,
                 &args.ino,
                 &args.dev,
@@ -217,6 +225,7 @@ pub fn run_main(command: SuSFSSubCommands) -> Result<()> {
                 &args.ctime_nsec,
                 &args.blocks,
                 &args.blksize,
+                &types,
             );
             api::add_sus_kstat_statically(
                 &args.path,

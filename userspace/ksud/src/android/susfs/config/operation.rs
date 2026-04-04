@@ -1,6 +1,9 @@
 use std::path::Path;
 
-use crate::android::susfs::config::{ConfigType, SusKstatStatically, read_config, save_config};
+use crate::android::susfs::config::{
+    data::{ConfigType, SusKstatStatically},
+    read_config, save_config,
+};
 
 pub fn sus_path<P>(path: P, types: &ConfigType)
 where

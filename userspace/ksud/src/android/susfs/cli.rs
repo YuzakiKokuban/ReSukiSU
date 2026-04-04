@@ -3,7 +3,7 @@ use clap::{Args, Parser, Subcommand};
 
 use crate::android::susfs::{
     api::{self},
-    config,
+    config::{self, data::ConfigType},
 };
 
 #[derive(Debug, Args)]
@@ -149,9 +149,9 @@ pub fn run_from_args(args: &[String]) -> Result<()> {
 pub fn run_main(command: SuSFSSubCommands, remove: bool) -> Result<()> {
     //let command = SuSFSSubCommands::try_parse_from(args)?;
     let types = if remove {
-        config::ConfigType::Remove
+        ConfigType::Remove
     } else {
-        config::ConfigType::Add
+        ConfigType::Add
     };
     match command {
         SuSFSSubCommands::AddSusPath { path } => {

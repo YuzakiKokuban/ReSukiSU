@@ -1,5 +1,5 @@
 use anyhow::Result;
-use clap::{Args, Parser, Subcommand};
+use clap::{Args, Parser, Subcommand, error::ErrorKind};
 
 use crate::android::susfs::{
     api::{self},
@@ -142,7 +142,16 @@ struct SusfsParser {
 }
 
 pub fn run_from_args(args: &[String]) -> Result<()> {
-    let parser = SusfsParser::try_parse_from(args)?;
+    let parser = match SusfsParser::try_parse_from(args) {
+        Ok(cli) => cli,
+        Err(e) => {
+            if matches!(e.kind(), ErrorKind::DisplayHelp | ErrorKind::DisplayVersion) {
+                e.print()?;
+                return Ok(());
+            }
+            return Err(anyhow::anyhow!("{e}"));
+        }
+    };
     run_main(parser.arg.command, parser.arg.remove)
 }
 

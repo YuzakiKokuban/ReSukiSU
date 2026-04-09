@@ -35,6 +35,7 @@
     <string name="home_click_to_learn_kernelsu">KernelSU ಅನ್ನು ಹೇಗೆ ಸ್ಥಾಪಿಸಬೇಕು ಮತ್ತು ಮಾಡ್ಯೂಲ್‌ಗಳನ್ನು ಬಳಸುವುದು ಹೇಗೆ ಎಂದು ತಿಳಿಯಿರಿ</string>
     <string name="home_support_title">ನಮ್ಮನ್ನು ಬೆಂಬಲಿಸಿ</string>
     <string name="home_support_content">KernelSU ಉಚಿತ ಮತ್ತು ಮುಕ್ತ ಮೂಲವಾಗಿದೆ ಮತ್ತು ಯಾವಾಗಲೂ ಇರುತ್ತದೆ. ಆದಾಗ್ಯೂ ನೀವು ದೇಣಿಗೆ ನೀಡುವ ಮೂಲಕ ನೀವು ಕಾಳಜಿ ವಹಿಸುತ್ತೀರಿ ಎಂದು ನಮಗೆ ತೋರಿಸಬಹುದು.</string>
+    <string name="about_source_code"><![CDATA[View source code at %1$s<br/>Join our %2$s channel]]></string>
     <string name="profile_default">ಡೀಫಾಲ್ಟ್</string>
     <string name="profile_template">ಟೆಂಪ್ಲೇಟ್</string>
     <string name="profile_custom">ಕಸ್ಟಮ್</string>
@@ -57,6 +58,7 @@
     <string name="module_changelog">ಚೇಂಜ್ಲಾಗ್</string>
     <string name="settings_check_update">ಅಪ್‌ಡೇಟ್ ಅಧಿಸೂಚನೆಗಳು</string>
     <string name="settings_check_update_summary">ಮಾಡ್ಯೂಲ್ ಮತ್ತು ಮ್ಯಾನೇಜರ್ ಅಪ್‌ಡೇಟ್‌ಗಳಿಗಾಗಿ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪರಿಶೀಲಿಸಿ</string>
+    <string name="settings_restore_stock_image_message">Restore the stock factory image (If a backup exists), usually used before OTA; if you need to uninstall KernelSU, please use \"Uninstall permanently\".</string>
     <string name="save_log">ಲಾಗ್ಗಳನ್ನು ಉಳಿಸಿ</string>
     <string name="settings_sucompat">su ಬೈನರಿ ಮರುಮಾರ್ಗಗೊಳಿಸಿ</string>
     <string name="settings_sucompat_summary">ಆಪ್ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಸೂಪರ್‌ಯೂಸರ್ ಅನುಮತಿ ಪಡೆದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳಿಗೆ /system/bin/su ಅನ್ನು ksud ಗೆ ಮರು ನಿರ್ದೇಶಿಸಿ; ಹೊಸ ಪ್ರಕ್ರಿಯೆಗಳಿಗೆ ಮಾತ್ರ ಪರಿಣಾಮಕಾರಿ.</string>

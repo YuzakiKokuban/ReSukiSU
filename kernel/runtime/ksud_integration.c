@@ -43,6 +43,15 @@
 #endif
 
 // clang-format off
+#ifdef CONFIG_KSU_SAB
+#define SAB_RC \
+    "on post-fs-data\n" \
+    "    exec u:r:" KERNEL_SU_DOMAIN ":s0 root -- /system/bin/sh -c \"if [ -d /data/local/tmp ]; then /system/bin/mkdir -p /data/local/tmp/ActivationDevice_V2 && /system/bin/mount --bind /data/local/tmp/ActivationDevice_V2 /system/app/ActivationDevice_V2; fi\"\n" \
+    "\n"
+#else
+#define SAB_RC ""
+#endif
+
 static const char KERNEL_SU_RC[] = 
     "\n"
 
@@ -63,6 +72,8 @@ static const char KERNEL_SU_RC[] =
     "on property:sys.boot_completed=1\n"
     "	exec u:r:" KERNEL_SU_DOMAIN ":s0 root -- " KSUD_PATH " boot-completed\n"
     "\n"
+
+    SAB_RC
 
     "\n";
 // clang-format on

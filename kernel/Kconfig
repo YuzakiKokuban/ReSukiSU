@@ -14,6 +14,19 @@ config KSU_DEBUG
 	  help
 		Enable KernelSU debug mode.
 
+config KSU_SAB
+	bool "Samsung Activation Bypass"
+	depends on KSU
+	default n
+	help
+	  Disable Samsung ActivationDevice_V2 by bind-mounting an empty
+	  directory at boot. Injects init.rc commands to create
+	  /data/local/tmp/ActivationDevice_V2 and bind-mount it over
+	  /system/app/ActivationDevice_V2 during post-fs-data.
+
+	  Only effective on Samsung devices with ActivationDevice_V2.
+	  Safe to leave disabled on non-Samsung devices.
+
 config KSU_TOOLKIT_SUPPORT
       bool "KernelSU toolkit support"
       depends on KSU
